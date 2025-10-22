@@ -6,10 +6,10 @@
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "image.png",
-      "36":"image.png",
-      "48": "image.png",
-      "128": "image.png"
+      "16": "files/images/logo.png",
+      "36":"files/images/logo.png",
+      "48": "files/images/logo.png",
+      "128": "files/images/logo.png"
     }
   }
 }

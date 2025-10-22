@@ -1,0 +1,205 @@
+:root {
+    --col-background: #06051b;
+    /* rich-black*/
+    --col-sec: #eae8feff;
+    /*lavender-web*/
+    --col-ter: #8587e2ff;
+    /*tropical-indigo*/
+    --col-prim: #d5aefcff;
+    /*mauve*/
+    --font-prim: "Gorditas", serif;
+    --font-sec: "Lexend", sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 600px;
+    width: 350px;
+    background-color: var(--col-background);
+    font-family: var(--font-prim);
+    border: 1px solid var(--col-sec);
+
+}
+
+.header {
+    background-color: var(--col-sec);
+    height: 38px;
+    padding: 3px 4px;
+    box-shadow: var(--col-sec) 0px 1px 5px;
+
+    .logotag {
+        height: 100%;
+        width: max-content;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+
+        * {
+            margin: 0px 3px;
+        }
+
+        .logotext {
+            font-size: 20px;
+        }
+    }
+}
+
+.main {
+
+
+    padding: 10px;
+
+    .timer {
+
+        height: 100px;
+        width: 90%;
+        border: 2px solid var(--col-sec);
+        display: flex;
+        border-radius: 10px;
+        align-items: center;
+        justify-content: space-evenly;
+        margin: 10px auto;
+
+        text-align: center;
+
+        .timertime {
+            font-size: 70px;
+            color: var(--col-prim);
+        }
+
+        .colnm {
+            font-size: 65px;
+            color: var(--col-ter);
+            padding-bottom: 10px;
+            font-family: var(--font-sec);
+
+        }
+    }
+
+    .events {
+        margin-top: 10px;
+        display: flex;
+        overflow-x: scroll;
+        padding-bottom: 5px;
+
+        .curevent {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            border: 1px solid var(--col-sec);
+            border-radius: 8px;
+            color: var(--col-sec);
+            padding: 3px 10px;
+            height: 90px;
+
+            .eventtittle {
+                font-size: 16px;
+            }
+
+            .eventtime {
+                font-size: 12px;
+                color: var(--col-prim);
+                line-height: 10px;
+
+            }
+
+            .controls {
+                margin: 2px;
+                display: flex;
+                justify-content: center;
+                align-items: end;
+
+
+                button {
+                    background-color: var(--col-sec);
+                    display: flex;
+                    border: none;
+                    height: 25px;
+                    width: 25px;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 100px;
+                    margin: 2px;
+
+
+
+                }
+            }
+        }
+
+        .pastevent {
+            margin: 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: end;
+            color: var(--col-prim);
+
+            span {
+                margin: 2px 5px;
+            }
+
+            .event {
+                height: 35px;
+                border-radius: 4px;
+                width: 100px;
+                border: 1px solid var(--col-sec);
+            }
+        }
+
+        .nextevent {
+            margin: 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: start;
+            color: var(--col-prim);
+
+            span {
+                margin: 2px 5px;
+            }
+
+            .event {
+                height: 35px;
+                border-radius: 4px;
+                width: 100px;
+                border: 1px solid var(--col-sec);
+            }
+        }
+
+
+    }
+}
+
+::-webkit-scrollbar {
+    height: 4px;
+    width: 8px;
+    background-color: var(--col-background);
+}
+
+::-webkit-scrollbar-thumb {
+    height: 4px;
+    width: 4px;
+    background-color: var(--col-ter);
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--col-prim);
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--col-sec);
+    border-radius: 10px;
+}
+
+.scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--col-ter) var(--col-sec);
+}
