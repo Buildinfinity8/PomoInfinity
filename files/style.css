@@ -5,7 +5,8 @@
     /*lavender-web*/
     --col-ter: #8587e2ff;
     /*tropical-indigo*/
-    --col-prim: #d5aefcff;
+    /* --col-prim: #d5aefcff; */
+    --col-prim: #0066FF;
     /*mauve*/
     --font-prim: "Gorditas", serif;
     --font-sec: "Lexend", sans-serif;
@@ -108,7 +109,7 @@ body {
                 line-height: 10px;
 
             }
-
+ 
             .controls {
                 margin: 2px;
                 display: flex;
