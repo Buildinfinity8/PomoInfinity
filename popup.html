@@ -9,15 +9,80 @@
       type="image/x-icon"
     />
     <link rel="stylesheet" href="files/style.css" />
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Gorditas:wght@400;700&display=swap");
-
-      @import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap");
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
   </head>
 
   <body>
-    <!-- Omkar Write Your Code Here -->
+    <header>
+      <div class="logoicon"><div id="pop" class="logoicon"></div></div>
+      <span>PomoInfinity</span>
+      <div class="menuicon">
+        <img
+          src="files/images/menu.png"
+          alt=""
+          height="30px"
+          style="color: aliceblue"
+        />
+      </div>
+    </header>
+    <div id="notifcont"></div>
+    <div id="main">
+      <div class="maintime">
+        <span id="mainmin">10</span
+        ><span style="position: relative; bottom: 10px">:</span
+        ><span id="mainsec">10</span>
+      </div>
+      <div class="clocklist">
+        <div class="clock active">
+          <img src="files/images/play.png" alt="" />
+          <span>10 : 10</span>
+          <img src="files/images/x.png" alt="" />
+        </div>
+
+        <div class="clock newclock">
+          <form id="newclockform">
+            <input
+              id="clockname"
+              required
+              type="text"
+              placeholder="Work To Do"
+            />
+            <input
+              type="time"
+              id="clocktime"
+              name="newclock"
+              step="2"
+              required
+            />
+            <button type="reset">
+              <img src="files/images/reset.png" alt="" />
+            </button>
+            <button id="closenewclock">
+              <img src="files/images/x.png" alt="" />
+            </button>
+            <button id="addclockbtn" type="button">
+              <img src="files/images/plus.png" alt="" />
+            </button>
+          </form>
+
+          <span
+            id="addbtnalt"
+            style="
+              width: 100%;
+              align-items: center;
+              display: flex;
+              justify-content: center;
+            "
+            ><img src="files/images/plus.png" alt=""
+          /></span>
+        </div>
+      </div>
+    </div>
   </body>
   <script src="files/script.js"></script>
 </html>
