@@ -6,6 +6,7 @@
 }
 
 :root {
+  --timeangle: 120deg;
   --col-background: #101010;
   /* rich-black*/
   --col-sec: rgb(240, 240, 240);
@@ -50,6 +51,7 @@ header {
   flex-direction: column;
   right: 0;
   position: fixed;
+  z-index: 2;
 
   .notiferror {
     background-color: rgb(112, 0, 0);
@@ -100,14 +102,36 @@ header {
   flex-direction: column;
 
   .maintime {
-    margin: 10px 0px;
-    width: 70%;
-    padding: 4px;
+
+    margin: 10px 1px;
+    width: max-content;
+    min-width: 70%;
+    padding: 5px;
     /* border: 5px solid var(--col-sec); */
     border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: var(--col-background);
+
+
+    position: relative;
+
+
+    &::after {
+      content: '';
+      position: absolute;
+
+      background: conic-gradient(from var(--timeangle), var(--col-background), var(--col-prim));
+      translate: -50% -50%;
+      z-index: -1;
+      left: 50%;
+      top: 50%;
+      width: calc(100%);
+      height: calc(100%);
+      padding: 3px;
+      border-radius: 23px;
+    }
 
     span {
       font-size: 90px;
@@ -125,33 +149,64 @@ header {
   max-height: 55vh;
   overflow-y: scroll;
 
-  width: max-content;
 
   .clock {
     width: 200px;
     margin: 5px 0px;
     background-color: rgb(131, 131, 131);
-
-    height: 40px;
     display: flex;
+    height: 50px;
+
     align-items: center;
     justify-content: space-between;
-    padding: 10px 15px;
-    border-radius: 25px;
+    flex-direction: column;
+    padding: 0px 15px 10px;
+    border-radius: 18px;
 
-    span {
-      font-size: 25px;
+    .clockname {
+      padding: 3px 2px 2px;
+      font-size: 14px;
+      line-height: 14px;
+      height: 25px;
+      letter-spacing: 0.1rem;
+      font-weight: 400;
+      width: 90%;
+      text-align: center;
+
     }
 
-    img {
-      height: 30px;
+    .clockdet {
+      display: flex;
+      width: 100%;
+
+      align-items: center;
+      justify-content: space-between;
+
+      img {
+        height: 30px;
+      }
+
+      span {
+        font-size: 30px;
+      }
     }
+
+
+
+
   }
 
   .newclock {
     height: max-content;
     flex-direction: column;
     justify-content: center;
+    padding: 8px 8px;
+
+    span {
+      img {
+        height: 30px;
+      }
+    }
 
     #newclockform {
       margin: 2px;

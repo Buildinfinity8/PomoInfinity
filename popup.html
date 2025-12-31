@@ -33,26 +33,24 @@
     <div id="notifcont"></div>
     <div id="main">
       <div class="maintime">
-        <span id="mainmin">10</span
+        <span id="mainhrs">10</span
         ><span style="position: relative; bottom: 10px">:</span
-        ><span id="mainsec">10</span>
+        ><span id="mainmin">10</span>
       </div>
+      <div id="clocklistactive" class="clocklist"></div>
       <div class="clocklist">
-        <div class="clock active">
-          <img src="files/images/play.png" alt="" />
-          <span>10 : 10</span>
-          <img src="files/images/x.png" alt="" />
-        </div>
-
         <div class="clock newclock">
           <form id="newclockform">
             <input
               id="clockname"
               required
+              name="clockname"
               type="text"
               placeholder="Work To Do"
             />
+            <!-- Make it to hh:mm:ss -->
             <input
+              value="00:10:00"
               type="time"
               id="clocktime"
               name="newclock"
@@ -82,6 +80,7 @@
           /></span>
         </div>
       </div>
+      <div id="clocklistinactive" class="clocklist"></div>
     </div>
   </body>
   <script src="files/script.js"></script>
