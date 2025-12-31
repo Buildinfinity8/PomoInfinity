@@ -1,4 +1,4 @@
-# PomoInfinity 🍅♾️
+# PomoInfinity
 
 <div align="center">
 
