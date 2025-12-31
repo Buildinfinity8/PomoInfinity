@@ -25,8 +25,23 @@ function refreshclosenotif() {
 }
 function refreshpauseclock() {
   var pauseclocks = document.getElementsByClassName("clock");
-  console.log( pauseclocks[0].dataset.cid)
-  
+
+  Array.from(pauseclocks).forEach(clock => {
+    var cid = clock.dataset.cid;
+    var playButton = clock.getElementsByClassName("playbtn")[0];
+    if (playButton) {
+      playButton.addEventListener("click", () => {
+        pauseclock(cid);
+        console.log(cid);
+      });
+    }
+    var closebtn = clock.getElementsByClassName("closebtn")[0];
+    if (closebtn) {
+      closebtn.addEventListener("click", () => {
+        closetimer();
+      });
+    }
+  });
 }
 
 
@@ -59,7 +74,7 @@ class Clock {
     this.isactive = true;
   }
   update() {
-    if (!this.isPaused) {
+    if (!this.ispaused) {
       if (this.clockhrs === 0 && this.clockmins === 0 && this.clockseconds === 0) {
         this.isfinished = true;
         return;
@@ -84,12 +99,33 @@ class Clock {
 
 
   }
-  pause(){
-    this.isPaused=!this.isPaused;
+  pause() {
+    this.ispaused = !this.ispaused;
   }
+  close() {
+    this.isactive = false
+  }
+
 }
-function pauseclock() {
-  
+function rearrangeclocks() {
+
+  clocks.sort((a, b) => {
+    if (a.ispaused === b.ispaused) {
+      return 0;
+    }
+    return a.ispaused ? 1 : -1;
+  });
+
+}
+
+function pauseclock(cid) {
+  for (let index = 0; index < clocks.length; index++) {
+    if (clocks[index].clockid == cid) {
+      clocks[index].pause();
+    }
+  }
+  loadactiveclocks();
+  rearrangeclocks();
 }
 
 function formatNumber(num) {
@@ -115,10 +151,10 @@ var storedclock = {
 };
 async function addclock() {
   const newclock = new Clock();
-
   clocks.push(newclock);
   loadactiveclocks();
   toglenewclock();
+  refreshpauseclock();
 }
 const clockcont = document.getElementById("clocklistactive");
 // loadactiveclocks();
@@ -130,7 +166,7 @@ function loadactiveclocks() {
         <div class="clock"  data-cid="${clocks[i].clockid}">
           <span class="clockname">${clocks[i].clockname}</span>
           <div class="clockdet">
-            <img src="files/images/play.png" id="playbtn" alt="" />
+        <img src="files/images/${clocks[i].ispaused == true ? "pause" : "play"}.png" class="playbtn" alt="" />
            <span>${formatNumber(clocks[i].clockhrs) +
       ":" +
       formatNumber(clocks[i].clockmins) +
@@ -139,7 +175,7 @@ function loadactiveclocks() {
       }</span>
             <img
               src="files/images/x.png"
-              class="timerclose"
+              class="closebtn"
             
               alt=""
             />
@@ -163,6 +199,7 @@ function everysecond() {
     for (let i = 0; i < clocks.length; i++) {
       clocks[i].update();
     }
+
     updatemainclock(clocks[0]);
     loadactiveclocks();
     // rotate sec time

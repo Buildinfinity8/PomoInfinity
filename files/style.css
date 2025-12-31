@@ -164,9 +164,9 @@ header {
     border-radius: 18px;
 
     .clockname {
-      padding: 3px 2px 2px;
+      padding: 3px 2px 0px;
       font-size: 14px;
-      line-height: 14px;
+      line-height: 10px;
       height: 25px;
       letter-spacing: 0.1rem;
       font-weight: 400;
@@ -201,6 +201,11 @@ header {
     flex-direction: column;
     justify-content: center;
     padding: 8px 8px;
+    width: 200px;
+    margin: 5px 0px;
+    background-color: rgb(131, 131, 131);
+    display: flex;
+    border-radius: 18px;
 
     span {
       img {
