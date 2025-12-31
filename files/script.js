@@ -23,6 +23,12 @@ function refreshclosenotif() {
     });
   }
 }
+function refreshpauseclock() {
+  var pauseclocks = document.getElementsByClassName("clock");
+  console.log( pauseclocks[0].dataset.cid)
+  
+}
+
 
 function toglenewclock() {
   var newclockform = document.getElementById("newclockform");
@@ -36,6 +42,7 @@ function toglenewclock() {
   }
 }
 var clocks = [];
+
 class Clock {
   constructor() {
     this.clockname = document.getElementById("clockname").value;
@@ -45,22 +52,44 @@ class Clock {
       Number(this.clocktime[1]),
       Number(this.clocktime[2]),
     ];
-
+    this.ispaused = false;
+    this.isfinished = false;
     this.createdtime = new Date();
     this.clockid = `CID${this.createdtime.getTime()}`;
     this.isactive = true;
   }
   update() {
-    if (this.clockseconds <= 0) {
-      this.clockmins--;
-      this.clockseconds = 59;
+    if (!this.isPaused) {
+      if (this.clockhrs === 0 && this.clockmins === 0 && this.clockseconds === 0) {
+        this.isfinished = true;
+        return;
+      }
+
+      if (this.clockseconds > 0) {
+        this.clockseconds--;
+      } else {
+        this.clockseconds = 59;
+
+        if (this.clockmins > 0) {
+          this.clockmins--;
+        } else {
+          this.clockmins = 59;
+
+          if (this.clockhrs > 0) {
+            this.clockhrs--;
+          }
+        }
+      }
     }
-    if (this.clockmins <= 0) {
-      this.clockhrs--;
-      this.clockmins = 59;
-    }
-    this.clockseconds--;
+
+
   }
+  pause(){
+    this.isPaused=!this.isPaused;
+  }
+}
+function pauseclock() {
+  
 }
 
 function formatNumber(num) {
@@ -89,6 +118,7 @@ async function addclock() {
 
   clocks.push(newclock);
   loadactiveclocks();
+  toglenewclock();
 }
 const clockcont = document.getElementById("clocklistactive");
 // loadactiveclocks();
@@ -97,21 +127,20 @@ function loadactiveclocks() {
   for (let i = 0; i < clocks.length; i++) {
     const clockitem = `
    
-        <div class="clock">
+        <div class="clock"  data-cid="${clocks[i].clockid}">
           <span class="clockname">${clocks[i].clockname}</span>
           <div class="clockdet">
-            <img src="files/images/play.png" alt="" />
-           <span>${
-             formatNumber(clocks[i].clockhrs) +
-             ":" +
-             formatNumber(clocks[i].clockmins) +
-             ":" +
-             formatNumber(clocks[i].clockseconds)
-           }</span>
+            <img src="files/images/play.png" id="playbtn" alt="" />
+           <span>${formatNumber(clocks[i].clockhrs) +
+      ":" +
+      formatNumber(clocks[i].clockmins) +
+      ":" +
+      formatNumber(clocks[i].clockseconds)
+      }</span>
             <img
               src="files/images/x.png"
               class="timerclose"
-              data-valuecid="${clocks[i].clockid}"
+            
               alt=""
             />
           </div>
@@ -119,6 +148,7 @@ function loadactiveclocks() {
     `;
     clockcont.innerHTML += clockitem;
   }
+  refreshpauseclock();
 }
 function updatemainclock(_clock) {
   document.getElementById("mainhrs").innerHTML = formatNumber(
@@ -139,12 +169,17 @@ function everysecond() {
     var timeangel = (clocks[0].clockseconds / 60) * 360;
     cssroot.style.setProperty("--timeangle", `${timeangel}deg`);
   }
+
 }
 const cssroot = document.documentElement;
 function startbordersec() {
   cssroot.style.setProperty("--timeangle", "0deg");
 }
 startbordersec();
+function ceatetestclock() {
+  addclock();
+}
+ceatetestclock();
 //  notification should be clear automaticly
 const notifcont = document.getElementById("notifcont");
 // notif("success", "this is a success");
