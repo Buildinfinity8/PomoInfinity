@@ -1,15 +1,16 @@
 {
-    "name":"PomoInfinity",
-    "description":"A better Pomodoro For Teams",
-"version":"1.0",
+  "name": "PomoInfinity",
+  "description": "PomoInfinity Unlike traditional timers that track one session at a time, It allows you to create a dynamic queue of specific work tasks, manage them individually, and visualize your progress with a clean interface.",
+  "version": "1.0",
   "manifest_version": 3,
-    "permissions": ["storage"]
-,
+  "permissions": [
+    "storage"
+  ],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
       "16": "files/images/logo.png",
-      "36":"files/images/logo.png",
+      "36": "files/images/logo.png",
       "48": "files/images/logo.png",
       "128": "files/images/logo.png"
     }

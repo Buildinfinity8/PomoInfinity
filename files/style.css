@@ -1,7 +1,7 @@
 * {
   margin: 0;
   padding: 0;
-  color: white;
+  color: rgb(244, 244, 244);
   transition: 50ms;
 }
 
@@ -111,7 +111,7 @@ header {
     border-radius: 20px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     background-color: var(--col-background);
 
 
@@ -132,6 +132,8 @@ header {
       padding: 3px;
       border-radius: 23px;
     }
+
+
 
     span {
       font-size: 90px;
@@ -194,6 +196,50 @@ header {
 
 
 
+  }
+
+  .inactiveclock {
+    width: 180px;
+    margin: 5px 0px;
+    background-color: rgba(104, 104, 104, 0.568);
+    display: flex;
+    height: 50px;
+
+
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 2px 15px 10px;
+    border-radius: 18px;
+
+    .clockname {
+      padding: 3px 2px 0px;
+      font-size: 14px;
+      line-height: 10px;
+      height: 25px;
+      letter-spacing: 0.1rem;
+      font-weight: 400;
+      width: 90%;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.374);
+    }
+
+    .clockdet {
+      display: flex;
+      width: 100%;
+
+      align-items: center;
+      justify-content: space-around;
+
+      img {
+        height: 30px;
+      }
+
+      span {
+
+        font-size: 30px;
+      }
+    }
   }
 
   .newclock {

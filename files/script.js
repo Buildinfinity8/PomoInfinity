@@ -23,24 +23,40 @@ function refreshclosenotif() {
     });
   }
 }
-function refreshpauseclock() {
-  var pauseclocks = document.getElementsByClassName("clock");
+function refreshactiveclockbtn() {
+  var activeclocks = document.getElementsByClassName("clock");
 
-  Array.from(pauseclocks).forEach(clock => {
+  Array.from(activeclocks).forEach(clock => {
     var cid = clock.dataset.cid;
     var playButton = clock.getElementsByClassName("playbtn")[0];
     if (playButton) {
       playButton.addEventListener("click", () => {
         pauseclock(cid);
-        console.log(cid);
+
       });
     }
     var closebtn = clock.getElementsByClassName("closebtn")[0];
     if (closebtn) {
       closebtn.addEventListener("click", () => {
-        closetimer();
+        closetimer(cid);
+
       });
     }
+  });
+}
+function refreshinactiveclockbtn() {
+  var inactiveclocks = document.getElementsByClassName("inactiveclock");
+
+  Array.from(inactiveclocks).forEach(clock => {
+    var cid = clock.dataset.cid;
+    var resetbtn = clock.getElementsByClassName("restartbtn")[0];
+    if (resetbtn) {
+      resetbtn.addEventListener("click", () => {
+        pauseclock(cid);
+
+      });
+    }
+
   });
 }
 
@@ -60,6 +76,10 @@ var clocks = [];
 
 class Clock {
   constructor() {
+    this.createdtime = new Date();
+
+    this.clockid = `CID${this.createdtime.getTime()}`;
+
     this.clockname = document.getElementById("clockname").value;
     this.clocktime = document.getElementById("clocktime").value.split(":");
     [this.clockhrs, this.clockmins, this.clockseconds] = [
@@ -70,13 +90,15 @@ class Clock {
     this.ispaused = false;
     this.isfinished = false;
     this.createdtime = new Date();
-    this.clockid = `CID${this.createdtime.getTime()}`;
     this.isactive = true;
   }
   update() {
     if (!this.ispaused) {
       if (this.clockhrs === 0 && this.clockmins === 0 && this.clockseconds === 0) {
         this.isfinished = true;
+        this.isactive = false;
+        loadinactiveclocks();
+
         return;
       }
 
@@ -104,6 +126,17 @@ class Clock {
   }
   close() {
     this.isactive = false
+    this.ispaused = true
+  }
+  reset() {
+    [this.clockhrs, this.clockmins, this.clockseconds] = [
+      Number(this.clocktime[0]),
+      Number(this.clocktime[1]),
+      Number(this.clocktime[2]),
+    ];
+    this.ispaused = false;
+    this.isfinished = false;
+    this.isactive = true;
   }
 
 }
@@ -126,6 +159,27 @@ function pauseclock(cid) {
   }
   loadactiveclocks();
   rearrangeclocks();
+}
+
+function closetimer(cid) {
+  for (let index = 0; index < clocks.length; index++) {
+    if (clocks[index].clockid == cid) {
+      clocks[index].close();
+    }
+  }
+  loadactiveclocks();
+  rearrangeclocks();
+  loadinactiveclocks()
+}
+function resetclock(cid) {
+  for (let index = 0; index < clocks.length; index++) {
+    if (clocks[index].clockid == cid) {
+      clocks[index].reset();
+    }
+  }
+  loadactiveclocks();
+  rearrangeclocks();
+  loadinactiveclocks()
 }
 
 function formatNumber(num) {
@@ -154,37 +208,69 @@ async function addclock() {
   clocks.push(newclock);
   loadactiveclocks();
   toglenewclock();
-  refreshpauseclock();
+  refreshactiveclockbtn();
+  rearrangeclocks();
 }
 const clockcont = document.getElementById("clocklistactive");
 // loadactiveclocks();
 function loadactiveclocks() {
-  clockcont.innerHTML = "";
-  for (let i = 0; i < clocks.length; i++) {
-    const clockitem = `
-   
-        <div class="clock"  data-cid="${clocks[i].clockid}">
-          <span class="clockname">${clocks[i].clockname}</span>
-          <div class="clockdet">
-        <img src="files/images/${clocks[i].ispaused == true ? "pause" : "play"}.png" class="playbtn" alt="" />
-           <span>${formatNumber(clocks[i].clockhrs) +
-      ":" +
-      formatNumber(clocks[i].clockmins) +
-      ":" +
-      formatNumber(clocks[i].clockseconds)
-      }</span>
-            <img
-              src="files/images/x.png"
-              class="closebtn"
-            
-              alt=""
-            />
-          </div>
+  const htmlContent = clocks.map(clock => {
+    if (!clock.isactive) {
+      return ""
+    }
+
+    const timeDisplay = `${formatNumber(clock.clockhrs)}:${formatNumber(clock.clockmins)}:${formatNumber(clock.clockseconds)}`;
+    const iconName = clock.ispaused ? "pause" : "play";
+
+    return `
+      <div class="clock" data-cid="${clock.clockid}">
+        <span class="clockname">${clock.clockname}</span>
+        <div class="clockdet">
+          <img 
+            src="files/images/${iconName}.png" 
+            class="playbtn" 
+            alt="Toggle Timer" 
+          />
+          <span>${timeDisplay}</span>
+          <img 
+            src="files/images/x.png" 
+            class="closebtn" 
+            alt="Close Timer" 
+          />
         </div>
+      </div>
     `;
-    clockcont.innerHTML += clockitem;
-  }
-  refreshpauseclock();
+  }).join('');
+
+  clockcont.innerHTML = htmlContent;
+
+
+  refreshactiveclockbtn();
+}
+const offclockcont = document.getElementById("clocklistinactive");
+
+function loadinactiveclocks() {
+  const htmlContent = clocks.map(clock => {
+    if (clock.isactive) {
+      return ""
+    }
+    const timeDisplay = `${formatNumber(clock.clockhrs)}:${formatNumber(clock.clockmins)}:${formatNumber(clock.clockseconds)}`;
+
+    return `
+      <div class="inactiveclock" data-cid="${clock.clockid}">
+        <span class="clockname">${clock.clockname}</span>
+        <div class="clockdet">
+          <span>${timeDisplay}</span>
+          <img src="files/images/reset.png" class="restartbtn" alt="Close Timer">
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  offclockcont.innerHTML = htmlContent;
+
+
+  refreshinactiveclockbtn();
 }
 function updatemainclock(_clock) {
   document.getElementById("mainhrs").innerHTML = formatNumber(
