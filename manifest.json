@@ -4,15 +4,25 @@
   "version": "1.0",
   "manifest_version": 3,
   "permissions": [
-    "storage"
+    "storage",
+        "nativeMessaging"  
   ],
+  
+  "icons": {
+    "16": "files/images/logo/logo-16.png",
+    "48": "files/images/logo/logo-48.png",
+    "128": "files/images/logo/logo-128.png"
+  },
+  "background": {
+    "service_worker": "files/background.js"
+  },
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "files/images/logo.png",
-      "36": "files/images/logo.png",
-      "48": "files/images/logo.png",
-      "128": "files/images/logo.png"
+      "16": "files/images/logo/logo-16.png",
+      "36": "files/images/logo/logo-36.png",
+      "48": "files/images/logo/logo-48.png",
+      "128": "files/images/logo/logo-128.png"
     }
   }
 }
