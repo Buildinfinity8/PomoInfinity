@@ -26,7 +26,7 @@ class Clock {
         this.ispaused = savedData.ispaused !== undefined ? savedData.ispaused : false;
         this.isfinished = savedData.isfinished !== undefined ? savedData.isfinished : false;
         this.isactive = savedData.isactive !== undefined ? savedData.isactive : true;
-
+this.deleted = savedData.exists !== undefined ? savedData.exists : false;
     }
 
     update() {
@@ -65,6 +65,7 @@ class Clock {
         this.isfinished = false;
         this.isactive = true;
     }
+  
 }
 
 // --- 2. The Main Loop (Runs forever in background) ---
@@ -76,9 +77,9 @@ setInterval(() => {
     // adding the badge 
     if (clocks.length > 0 && clocks[0].isactive && !clocks[0].ispaused) {
         if (clocks[0].clockhrs > 0) {
-            var text = clocks[0].clockhrs.toString() + ":" + clocks[0].clockmins.toString();
+            var text = clocks[0].clockhrs.toString().padStart(2,"0") + ":" + clocks[0].clockmins.toString().padStart(2,"0");
         } else {
-            var text = clocks[0].clockmins.toString() + ":" + clocks[0].clockseconds.toString();
+            var text = clocks[0].clockmins.toString().padStart(2,"0") + ":" + clocks[0].clockseconds.toString().padStart(2,"0");
         }
 
         chrome.action.setBadgeText({ text: text });
@@ -89,7 +90,14 @@ setInterval(() => {
     }
     saveclocks();
 }, 1000);
+function deletectime(clock) {
+  index = clocks.indexOf(clock)
+if (index > -1) { 
+  clocks.splice(index, 1); 
 
+}
+ 
+}
 function saveclocks() {
     chrome.storage.local.set({ pomoClocks: clocks })
 }
@@ -113,7 +121,10 @@ chrome.runtime.onInstalled.addListener(() => {
     getsavedclocks()
 })
 
-// --- 3. Message Listener (Communicates with Popup) ---
+
+
+
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     // A. Popup asks for data to draw the UI
     if (request.action === "getClocks") {
@@ -134,6 +145,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             if (request.action === "pause") targetClock.pause();
             if (request.action === "close") targetClock.close();
             if (request.action === "reset") targetClock.reset();
+            if (request.action === "remove") deletectime(targetClock);
 
             // Sort logic (rearrange) inside background now
             clocks.sort((a, b) => {

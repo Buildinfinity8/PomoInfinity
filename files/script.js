@@ -41,22 +41,38 @@ async function addclock() {
     clearinput();
   });
 }
-
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 // PAUSE CLOCK
 function pauseclock(cid) {
-chrome.runtime.sendMessage({action:"pause",id : cid }, syncWithBackground)
+chrome.runtime.sendMessage({action:"pause",id : cid }, async () => {
+  await sleep(200);
+  syncWithBackground()
+})
 }
 
 // CLOSE CLOCK
 function closetimer(cid) {
-  chrome.runtime.sendMessage({ action: "close", id: cid }, syncWithBackground);
+  chrome.runtime.sendMessage({ action: "close", id: cid }, async () => {
+  await sleep(200);
+  syncWithBackground()
+});
 }
 
 // RESET CLOCK
 function resetclock(cid) {
-  chrome.runtime.sendMessage({ action: "reset", id: cid }, syncWithBackground);
+  chrome.runtime.sendMessage({ action: "reset", id: cid },  async () => {
+  await sleep(200);
+  syncWithBackground()
+});
 }
-
+function removeclock(cid) {
+  chrome.runtime.sendMessage({ action: "remove", id: cid },  async () => {
+  await sleep(200);
+  syncWithBackground()
+});
+}
 // --- 3. UI Helpers (Mostly unchanged) ---
 
 function formatNumber(num) {
@@ -67,7 +83,9 @@ function loadactiveclocks() {
   const clockcont = document.getElementById("clocklistactive");
   // Use localClocks array received from background
   const htmlContent = localClocks.map(clock => {
-    if (!clock.isactive) return "";
+    if (!clock.isactive ) return "";
+ if (clock.deleted) 
+      return ""
     
     const timeDisplay = `${formatNumber(clock.clockhrs)}:${formatNumber(clock.clockmins)}:${formatNumber(clock.clockseconds)}`;
     const iconName = clock.ispaused ? "pause" : "play"; // Note: I swapped this logic slightly to match standard UI icons
@@ -91,14 +109,18 @@ function loadinactiveclocks() {
   const offclockcont = document.getElementById("clocklistinactive");
   const htmlContent = localClocks.map(clock => {
     if (clock.isactive) return "";
+    if (clock.deleted) 
+      return ""
+    
     
     const timeDisplay = `${formatNumber(clock.clockhrs)}:${formatNumber(clock.clockmins)}:${formatNumber(clock.clockseconds)}`;
     return `
       <div class="inactiveclock" data-cid="${clock.clockid}">
         <span class="clockname">${clock.clockname}</span>
         <div class="clockdet">
+        <img src="files/images/reset.png" class="restartbtn" alt="Reset">
           <span>${timeDisplay}</span>
-          <img src="files/images/reset.png" class="restartbtn" alt="Reset">
+          <img src="files/images/trash.png" class="trashbtn" alt="Reset">
         </div>
       </div>
     `;
@@ -109,12 +131,13 @@ function loadinactiveclocks() {
 
 function updatemainclock(_clock) {
   if (!_clock) return;
-  document.getElementById("mainhrs").innerHTML = formatNumber(
+
+  document.getElementById("mainhrs").innerHTML = _clock.isactive== true?  formatNumber(
     _clock.clockhrs == 0 ? _clock.clockmins : _clock.clockhrs
-  );
-  document.getElementById("mainmin").innerHTML = formatNumber(
+  ) : formatNumber(0);
+  document.getElementById("mainmin").innerHTML = _clock.isactive == true? formatNumber(
     _clock.clockhrs == 0 ? _clock.clockseconds : _clock.clockmins
-  );
+  ): formatNumber(0);
 }
 
 // --- Event Listeners (Keep your existing ones) ---
@@ -169,6 +192,8 @@ function refreshinactiveclockbtn() {
   Array.from(inactiveclocks).forEach(clock => {
     var cid = clock.dataset.cid;
     clock.getElementsByClassName("restartbtn")[0]?.addEventListener("click", () => resetclock(cid));
+    clock.getElementsByClassName("trashbtn")[0]?.addEventListener("click", () => removeclock(cid));
+
   });
 }
 

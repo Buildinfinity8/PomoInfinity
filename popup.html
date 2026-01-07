@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>PomoInfinity</title>
-  <link rel="shortcut icon" href="files/images/logo.png" type="image/x-icon" />
+  <link rel="shortcut icon" href="files/images/logo/logo.png" type="image/x-icon" />
   <link rel="stylesheet" href="files/style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -31,6 +31,12 @@
     <div class="clocklist">
       <div class=" newclock">
         <form id="newclockform">
+          <div class="formats">
+            <div class="format" data-type="Break" data-time="05:00"><span>Break</span> <span>05:00</span></div>
+            <div class="format" data-type="Work" data-time="25:00"><span>Work</span> <span>25:00</span></div>
+            <div class="format" data-type="Focus" data-time="50:00"><span>Focus</span> <span>50:00</span></div>
+          </div>
+
           <input id="clockname" required name="clockname" type="text" placeholder="Work To Do" />
           <!-- Make it to hh:mm:ss -->
           <input value="00:10:00" type="time" id="clocktime" name="newclock" step="2" required />
@@ -61,49 +67,3 @@
 <script src="files/script.js"></script>
 
 </html>
-
-<!-- <div class="header">
-    <div class="logotag">
-      <img class="logoimg" src="files/images/logo.png" alt="PI" width="25">
-    
-      <img class="logoimg" src=" https://img.icons8.com/?size=100&id=10247&format=png&color=06051b" alt="PI" width="30">
-      <span class="logotext">Pomo Infinity</span>
-    </div>
-  </div>
-
-  <div class="main">
-    <div class="timer">
-      <span id="timerhrs" class="timertime">11</span>
-      <span class="colnm">:</span>
-      <span id="timermin" class="timertime">12</span>
-      <span class="colnm">:</span>
-      <span id="timersec" class="timertime">15</span>
-
-    </div>
-    <div class="events">
-      <div class="pastevent">
-        <span>Past</span>
-        <div class="event"></div>
-      </div>
-      <div class="curevent">
-        <span class="eventtittle">EventTitle</span>
-        <span class="eventtime">10:55:40</span>
-        <div class="controls">
-          <button class="sidebtn" id="reset">
-            <img src="files/images/reset.png" width="12" alt="">
-          </button>
-          <button class="mainbtn" style="width: 30px; height: 30px;" id="reset">
-            <img src="files/images/play.png" width="18" style="margin-left: 1px;" alt="">
-          </button>
-          <button class="sidebtn" id="reset">
-            <img src="files/images/skip.png" width="14" style="margin-left: 1px;" alt="">
-          </button>
-        </div>
-      </div>
-      <div class="nextevent">
-        <span>Next</span>
-        <div class="event"></div>
-      </div>
-
-    </div>
-  </div> -->
