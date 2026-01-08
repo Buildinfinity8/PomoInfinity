@@ -102,7 +102,7 @@ header {
   flex-direction: column;
 
   .maintime {
-
+font-variant-numeric:normal ;
     margin: 10px 1px;
     width: max-content;
     min-width: 70%;
@@ -386,4 +386,47 @@ body {
 .scrollbar {
   scrollbar-width: thin;
   scrollbar-color: var(--col-ter) var(--col-sec);
+}
+/* 1. Smoothly slide items when they change position */
+.clocklist {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px;
+  transition: all 0.5s ease; /* Animate container height changes */
+}
+
+.clock, .inactiveclock {
+  transition: transform 0.4s cubic-bezier(0.2, 1, 0.2, 1), opacity 0.3s ease;
+  /* Glassmorphism Effect */
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* 2. Feedback on click */
+.clock:active, .inactiveclock:active {
+  transform: scale(0.96);
+}
+
+/* 3. The "Main Clock" Glow */
+.maintime {
+  box-shadow: 0 0 30px rgba(179, 179, 179, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.maintime:hover {
+  box-shadow: 0 0 50px rgba(179, 179, 179, 0.25);
+}
+
+/* 4. Better Typography */
+#mainhrs, #mainmin {
+  font-variant-numeric: tabular-nums; /* Prevents text jumping as numbers change */
+  font-weight: 700;
+  text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+button img:hover, .playbtn:hover, .closebtn:hover {
+  transform: scale(1.1) rotate(2deg);
+  filter: brightness(1.2);
 }
