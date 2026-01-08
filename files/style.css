@@ -421,7 +421,8 @@ body {
 /* 2. Feedback on click */
 .clock:active,
 .inactiveclock:active,
-#addclockbtn:active ,.newclock {
+#addclockbtn:active,
+.newclock {
   transform: scale(0.96);
 }
 
@@ -434,6 +435,7 @@ body {
 .maintime:hover {
   box-shadow: 0 0 50px rgba(179, 179, 179, 0.25);
 }
+
 
 /* 4. Better Typography */
 #mainhrs,
@@ -449,8 +451,8 @@ button img:hover,
 .closebtn:hover,
 .restartbtn:hover,
 .trashbtn:hover,
-#addclockbtn img:hover ,
-#addbtnalt  img:hover {
+#addclockbtn img:hover,
+#addbtnalt img:hover {
   transform: scale(1.1) rotate(2deg);
   filter: brightness(1.2);
 }

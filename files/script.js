@@ -7,20 +7,20 @@ function syncWithBackground() {
   chrome.runtime.sendMessage({ action: "getClocks" }, (response) => {
     if (response && response.clocks) {
       localClocks = response.clocks;
-      
+
       // Update UI functions
       loadactiveclocks();
       loadinactiveclocks();
-      
+
       if (localClocks.length > 0) {
         // Update Main big clock
         updatemainclock(localClocks[0]);
         // Update CSS animation
-        
+
         var timeangel = (localClocks[0].clockseconds / 60) * 360;
         cssroot.style.setProperty("--timeangle", `${timeangel}deg`);
       }
-      else{
+      else {
         console.log("kaya re mama")
       }
     }
@@ -37,7 +37,7 @@ setInterval(syncWithBackground, 1000);
 async function addclock() {
   const name = document.getElementById("clockname").value;
   const time = document.getElementById("clocktime").value;
-  
+
   // Tell background to create it
   chrome.runtime.sendMessage({ action: "add", name: name, time: time }, () => {
     syncWithBackground(); // Update UI immediately
@@ -50,32 +50,32 @@ function sleep(ms) {
 }
 // PAUSE CLOCK
 function pauseclock(cid) {
-chrome.runtime.sendMessage({action:"pause",id : cid }, async () => {
-  await sleep(200);
-  syncWithBackground()
-})
+  chrome.runtime.sendMessage({ action: "pause", id: cid }, async () => {
+    await sleep(200);
+    syncWithBackground()
+  })
 }
 
 // CLOSE CLOCK
 function closetimer(cid) {
   chrome.runtime.sendMessage({ action: "close", id: cid }, async () => {
-  await sleep(200);
-  syncWithBackground()
-});
+    await sleep(200);
+    syncWithBackground()
+  });
 }
 
 // RESET CLOCK
 function resetclock(cid) {
-  chrome.runtime.sendMessage({ action: "reset", id: cid },  async () => {
-  await sleep(200);
-  syncWithBackground()
-});
+  chrome.runtime.sendMessage({ action: "reset", id: cid }, async () => {
+    await sleep(200);
+    syncWithBackground()
+  });
 }
 function removeclock(cid) {
-  chrome.runtime.sendMessage({ action: "remove", id: cid },  async () => {
-  await sleep(200);
-  syncWithBackground()
-});
+  chrome.runtime.sendMessage({ action: "remove", id: cid }, async () => {
+    await sleep(200);
+    syncWithBackground()
+  });
 }
 // --- 3. UI Helpers (Mostly unchanged) ---
 
@@ -87,10 +87,10 @@ function loadactiveclocks() {
   const clockcont = document.getElementById("clocklistactive");
   // Use localClocks array received from background
   const htmlContent = localClocks.map(clock => {
-    if (!clock.isactive ) return "";
- if (clock.deleted) 
+    if (!clock.isactive) return "";
+    if (clock.deleted)
       return ""
-    
+
     const timeDisplay = `${formatNumber(clock.clockhrs)}:${formatNumber(clock.clockmins)}:${formatNumber(clock.clockseconds)}`;
     const iconName = clock.ispaused ? "pause" : "play"; // Note: I swapped this logic slightly to match standard UI icons
 
@@ -113,10 +113,10 @@ function loadinactiveclocks() {
   const offclockcont = document.getElementById("clocklistinactive");
   const htmlContent = localClocks.map(clock => {
     if (clock.isactive) return "";
-    if (clock.deleted) 
+    if (clock.deleted)
       return ""
-    
-    
+
+
     const timeDisplay = `${formatNumber(clock.clockhrs)}:${formatNumber(clock.clockmins)}:${formatNumber(clock.clockseconds)}`;
     return `
       <div class="inactiveclock" data-cid="${clock.clockid}">
@@ -136,12 +136,12 @@ function loadinactiveclocks() {
 function updatemainclock(_clock) {
   if (!_clock) return;
 
-  document.getElementById("mainhrs").innerHTML = _clock.isactive== true?  formatNumber(
+  document.getElementById("mainhrs").innerHTML = _clock.isactive == true ? formatNumber(
     _clock.clockhrs == 0 ? _clock.clockmins : _clock.clockhrs
   ) : formatNumber(0);
-  document.getElementById("mainmin").innerHTML = _clock.isactive == true? formatNumber(
+  document.getElementById("mainmin").innerHTML = _clock.isactive == true ? formatNumber(
     _clock.clockhrs == 0 ? _clock.clockseconds : _clock.clockmins
-  ): formatNumber(0);
+  ) : formatNumber(0);
 }
 
 // --- Event Listeners (Keep your existing ones) ---
@@ -155,12 +155,12 @@ document.getElementById("addclockbtn").addEventListener("click", () => {
 });
 var formats = document.getElementsByClassName("format")
 
-Array.from(formats).forEach((ele)=>{
-  ele.addEventListener("click" , ()=>{
-  var time = ele.dataset.time
-  var text = ele.dataset.text
-document.getElementById("clockname").value = text
-document.getElementById("clocktime").value = time
+Array.from(formats).forEach((ele) => {
+  ele.addEventListener("click", () => {
+    var time = ele.dataset.time
+    var text = ele.dataset.text
+    document.getElementById("clockname").value = text
+    document.getElementById("clocktime").value = time
   })
 
 })
@@ -223,7 +223,7 @@ function notif(type, text) {
   notifcont.innerHTML += notif;
   var closenotifs = document.getElementsByClassName("notifclosebtn");
   for (let i = 0; i < closenotifs.length; i++) {
-    closenotifs[i].addEventListener("click", function() {
+    closenotifs[i].addEventListener("click", function () {
       this.parentElement.style.display = "none";
     });
   }

@@ -6,7 +6,7 @@ let clocks = [];
 // --- 1. The Clock Logic (Moved here) ---
 class Clock {
     constructor(name, timeStr, savedData = {}) {
-        this.createdtime = savedData.createdtime ?  savedData.createdtime : new Date().getTime().toString();
+        this.createdtime = savedData.createdtime ? savedData.createdtime : new Date().getTime().toString();
         this.clockid = savedData.clockid || `CID${this.createdtime}`;
         this.clockname = name;
 
@@ -31,7 +31,7 @@ class Clock {
     update() {
         if (!this.ispaused && this.isactive) {
             if (this.clockhrs === 0 && this.clockmins === 0 && this.clockseconds === 0) {
-                
+
                 this.close()
                 return;
             }
