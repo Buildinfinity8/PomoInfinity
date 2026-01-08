@@ -4,7 +4,6 @@
 
 ![Version](https://img.shields.io/badge/version-1.0-blue)
 ![Manifest](https://img.shields.io/badge/manifest-v3-green)
-![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
 **A better Pomodoro timer for managing multiple tasks efficiently.**
 

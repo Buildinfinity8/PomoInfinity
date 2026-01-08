@@ -6,11 +6,10 @@ let clocks = [];
 // --- 1. The Clock Logic (Moved here) ---
 class Clock {
     constructor(name, timeStr, savedData = {}) {
-        this.createdtime = savedData.createdtime ? new Date(savedData.createdtime) : new Date();
-        this.clockid = savedData.clockid || `CID${this.createdtime.getTime()}`;
+        this.createdtime = savedData.createdtime ?  savedData.createdtime : new Date().getTime().toString();
+        this.clockid = savedData.clockid || `CID${this.createdtime}`;
         this.clockname = name;
 
-        // Parse time passed from popup
         this.clocktime = timeStr.split(":");
         if (savedData.clockhrs !== undefined) {
             this.clockhrs = savedData.clockhrs;
@@ -26,14 +25,14 @@ class Clock {
         this.ispaused = savedData.ispaused !== undefined ? savedData.ispaused : false;
         this.isfinished = savedData.isfinished !== undefined ? savedData.isfinished : false;
         this.isactive = savedData.isactive !== undefined ? savedData.isactive : true;
-this.deleted = savedData.exists !== undefined ? savedData.exists : false;
+        this.deleted = savedData.exists !== undefined ? savedData.exists : false;
     }
 
     update() {
         if (!this.ispaused && this.isactive) {
             if (this.clockhrs === 0 && this.clockmins === 0 && this.clockseconds === 0) {
-                this.isfinished = true;
-                this.isactive = false;
+                
+                this.close()
                 return;
             }
 
@@ -65,7 +64,7 @@ this.deleted = savedData.exists !== undefined ? savedData.exists : false;
         this.isfinished = false;
         this.isactive = true;
     }
-  
+
 }
 
 // --- 2. The Main Loop (Runs forever in background) ---
@@ -77,9 +76,9 @@ setInterval(() => {
     // adding the badge 
     if (clocks.length > 0 && clocks[0].isactive && !clocks[0].ispaused) {
         if (clocks[0].clockhrs > 0) {
-            var text = clocks[0].clockhrs.toString().padStart(2,"0") + ":" + clocks[0].clockmins.toString().padStart(2,"0");
+            var text = clocks[0].clockhrs.toString().padStart(2, "0") + ":" + clocks[0].clockmins.toString().padStart(2, "0");
         } else {
-            var text = clocks[0].clockmins.toString().padStart(2,"0") + ":" + clocks[0].clockseconds.toString().padStart(2,"0");
+            var text = clocks[0].clockmins.toString().padStart(2, "0") + ":" + clocks[0].clockseconds.toString().padStart(2, "0");
         }
 
         chrome.action.setBadgeText({ text: text });
@@ -91,23 +90,23 @@ setInterval(() => {
     saveclocks();
 }, 1000);
 function deletectime(clock) {
-  index = clocks.indexOf(clock)
-if (index > -1) { 
-  clocks.splice(index, 1); 
+    index = clocks.indexOf(clock)
+    if (index > -1) {
+        clocks.splice(index, 1);
 
-}
- 
+    }
+
 }
 function saveclocks() {
     chrome.storage.local.set({ pomoClocks: clocks })
 }
 function getsavedclocks() {
-   
+
     chrome.storage.local.get(["pomoClocks"]).then((result) => {
         var pomoclocks = result.pomoClocks
         console.log(pomoclocks);
         pomoclocks.forEach(clock => {
-            const newclock = new Clock( clock.clockname , clock.clocktime.join(":"),clock)
+            const newclock = new Clock(clock.clockname, clock.clocktime.join(":"), clock)
             clocks.push(newclock);
         });
     })

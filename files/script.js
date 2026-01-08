@@ -16,8 +16,12 @@ function syncWithBackground() {
         // Update Main big clock
         updatemainclock(localClocks[0]);
         // Update CSS animation
+        
         var timeangel = (localClocks[0].clockseconds / 60) * 360;
         cssroot.style.setProperty("--timeangle", `${timeangel}deg`);
+      }
+      else{
+        console.log("kaya re mama")
       }
     }
   });
@@ -120,7 +124,7 @@ function loadinactiveclocks() {
         <div class="clockdet">
         <img src="files/images/reset.png" class="restartbtn" alt="Reset">
           <span>${timeDisplay}</span>
-          <img src="files/images/trash.png" class="trashbtn" alt="Reset">
+          <img src="files/images/trash.png" class="" alt="Reset">
         </div>
       </div>
     `;
@@ -149,6 +153,17 @@ document.getElementById("closenewclock").addEventListener("click", toglenewclock
 document.getElementById("addclockbtn").addEventListener("click", () => {
   if (verifyinput()) addclock();
 });
+var formats = document.getElementsByClassName("format")
+
+Array.from(formats).forEach((ele)=>{
+  ele.addEventListener("click" , ()=>{
+  var time = ele.dataset.time
+  var text = ele.dataset.text
+document.getElementById("clockname").value = text
+document.getElementById("clocktime").value = time
+  })
+
+})
 
 function verifyinput() {
   let cname = document.getElementById("clockname").value;
