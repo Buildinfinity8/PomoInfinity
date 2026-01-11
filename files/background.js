@@ -104,19 +104,23 @@ function getsavedclocks() {
 
     chrome.storage.local.get(["pomoClocks"]).then((result) => {
         var pomoclocks = result.pomoClocks
-        console.log(pomoclocks);
+        if (result.exists) {
+               console.log(pomoclocks);
         pomoclocks.forEach(clock => {
             const newclock = new Clock(clock.clockname, clock.clocktime.join(":"), clock)
             clocks.push(newclock);
         });
+        }
+    
+     
     })
 }
 chrome.runtime.onStartup.addListener(() => {
-    console.log("i run alone");
+
     getsavedclocks()
 })
 chrome.runtime.onInstalled.addListener(() => {
-    console.log("i  alone");
+
     getsavedclocks()
 })
 
