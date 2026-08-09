@@ -1,14 +1,13 @@
 {
   "name": "Pomori",
   "description": "Unlike traditional timers that track one session at a time, Pomori lets you create a dynamic queue of tasks, manage them individually, and visualize your progress with a clean interface.",
-  "version": "0.0.4",
+  "version": "1.1.0",
   "manifest_version": 3,
   "permissions": [
     "storage",
     "notifications",
     "offscreen"
   ],
-
   "icons": {
     "16": "files/images/logo/logo-16.png",
     "48": "files/images/logo/logo-48.png",
