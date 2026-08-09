@@ -438,7 +438,7 @@ body {
 .clock:active,
 .inactiveclock:active,
 #addclockbtn:active,
-.newclock {
+.newclock:active {
   transform: scale(0.96);
 }
 
@@ -729,12 +729,31 @@ body.mini {
     width: 100%;
     font-size: 13px;
     opacity: 0.85;
+    text-align: center;
+    letter-spacing: 0.05rem;
   }
 
   .maintime {
     min-width: unset;
     width: max-content;
     padding: 8px 18px;
+    border-radius: 20px;
+    background-color: var(--col-background);
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      background: conic-gradient(from var(--timeangle), var(--col-background), var(--col-prim));
+      translate: -50% -50%;
+      z-index: -1;
+      left: 50%;
+      top: 50%;
+      width: calc(100%);
+      height: calc(100%);
+      padding: 3px;
+      border-radius: 23px;
+    }
 
     span {
       font-size: 54px;

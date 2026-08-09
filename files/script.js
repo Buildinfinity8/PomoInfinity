@@ -177,7 +177,7 @@ function loadactiveclocks() {
       return ""
 
     const timeDisplay = `${formatNumber(clock.clockhrs)}:${formatNumber(clock.clockmins)}:${formatNumber(clock.clockseconds)}`;
-    const iconName = clock.ispaused ? "pause" : "play"; // Note: I swapped this logic slightly to match standard UI icons
+    const iconName = clock.ispaused ? "play" : "pause";
 
     return `
       <div class="clock" draggable="true" data-cid="${clock.clockid}">
